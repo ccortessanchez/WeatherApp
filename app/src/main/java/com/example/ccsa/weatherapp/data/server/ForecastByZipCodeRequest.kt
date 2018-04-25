@@ -1,9 +1,11 @@
-package com.example.ccsa.weatherapp.data
+package com.example.ccsa.weatherapp.data.server
 
+import com.example.ccsa.weatherapp.data.ForecastResult
 import com.google.gson.Gson
 import java.net.URL
 
-class ForecastRequest(private val zipCode: String) {
+
+class ForecastByZipCodeRequest(private val zipCode: Long, val gson: Gson = Gson()) {
 
     companion object {
         private val APP_ID = "15646a06818f61f7b8d7823ca833e1ce"
@@ -13,6 +15,6 @@ class ForecastRequest(private val zipCode: String) {
 
     fun execute(): ForecastResult {
         val forecastJsonStr = URL(COMPLETE_URL + zipCode).readText()
-        return Gson().fromJson(forecastJsonStr, ForecastResult::class.java)
+        return gson.fromJson(forecastJsonStr, ForecastResult::class.java)
     }
 }
