@@ -1,6 +1,5 @@
 package com.example.ccsa.weatherapp.data.server
 
-import com.example.ccsa.weatherapp.data.ForecastResult
 import com.google.gson.Gson
 import java.net.URL
 

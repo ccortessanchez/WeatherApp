@@ -9,6 +9,8 @@ import com.example.ccsa.weatherapp.domain.model.Forecast
 import com.example.ccsa.weatherapp.domain.model.ForecastList
 import com.example.ccsa.weatherapp.extensions.ctx
 import com.squareup.picasso.Picasso
+import java.text.DateFormat
+import java.util.*
 import kotlinx.android.synthetic.main.item_forecast.view.*
 
 class ForecastListAdapter(private val weekForecast: ForecastList,
@@ -24,7 +26,7 @@ class ForecastListAdapter(private val weekForecast: ForecastList,
         holder.bindForecast(weekForecast[position])
     }
 
-    override fun getItemCount(): Int = weekForecast.size
+    override fun getItemCount() = weekForecast.size
 
     class ViewHolder(view: View, private val itemClick: (Forecast) -> Unit)
         : RecyclerView.ViewHolder(view) {
@@ -32,16 +34,17 @@ class ForecastListAdapter(private val weekForecast: ForecastList,
         fun bindForecast(forecast: Forecast) {
             with(forecast) {
                 Picasso.with(itemView.ctx).load(iconUrl).into(itemView.icon)
-                itemView.date.text = date
+                itemView.date.text = convertDate(date)
                 itemView.description.text = description
                 itemView.maxTemperature.text = "${high}º"
                 itemView.minTemperature.text = "${low}º"
                 itemView.setOnClickListener { itemClick(this) }
             }
         }
-    }
 
-    interface OnItemClickListener {
-        operator fun invoke(forecast: Forecast)
+        private fun convertDate(date: Long): String {
+            val df = DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.getDefault())
+            return df.format(date)
+        }
     }
 }

@@ -1,7 +1,5 @@
 package com.example.ccsa.weatherapp.data.server
 
-import com.example.ccsa.weatherapp.data.Forecast
-import com.example.ccsa.weatherapp.data.ForecastResult
 import com.example.ccsa.weatherapp.domain.model.ForecastList
 import java.util.*
 import java.util.concurrent.TimeUnit
