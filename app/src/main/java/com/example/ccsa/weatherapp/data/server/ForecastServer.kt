@@ -2,7 +2,9 @@ package com.example.ccsa.weatherapp.data.server
 
 import com.example.ccsa.weatherapp.data.db.ForecastDb
 import com.example.ccsa.weatherapp.domain.datasource.ForecastDataSource
+import com.example.ccsa.weatherapp.domain.model.Forecast
 import com.example.ccsa.weatherapp.domain.model.ForecastList
+import java.lang.UnsupportedOperationException
 
 class ForecastServer(
         private val dataMapper: ServerDataMapper = ServerDataMapper(),
@@ -14,4 +16,6 @@ class ForecastServer(
         forecastDb.saveForecast(converted)
         return forecastDb.requestForecastByZipCode(zipCode, date)
     }
+
+    override fun requestDayForecast(id: Long): Forecast? = throw  UnsupportedOperationException()
 }

@@ -1,11 +1,9 @@
 package com.example.ccsa.weatherapp.data.db
 
 import com.example.ccsa.weatherapp.domain.datasource.ForecastDataSource
+import com.example.ccsa.weatherapp.domain.model.Forecast
 import com.example.ccsa.weatherapp.domain.model.ForecastList
-import com.example.ccsa.weatherapp.extensions.clear
-import com.example.ccsa.weatherapp.extensions.parseList
-import com.example.ccsa.weatherapp.extensions.parseOpt
-import com.example.ccsa.weatherapp.extensions.toVarargArray
+import com.example.ccsa.weatherapp.extensions.*
 import org.jetbrains.anko.db.select
 import org.jetbrains.anko.db.insert
 import java.util.*
@@ -25,6 +23,12 @@ class ForecastDb(private val forecastDbHelper: ForecastDbHelper = ForecastDbHelp
                 .parseOpt { CityForecast(HashMap(it), dailyForecast) }
 
         if (city != null) dataMapper.convertToDomain(city) else null
+    }
+
+    override fun requestDayForecast(id: Long): Forecast? = forecastDbHelper.use {
+        val forecast = select(DayForecastTable.NAME).byId(id).parseOpt { DayForecast(HashMap(it)) }
+
+        if (forecast != null) dataMapper.convertDayToDomain(forecast) else null
     }
 
     fun saveForecast(forecast: ForecastList) = forecastDbHelper.use {
