@@ -11,11 +11,11 @@ import com.example.ccsa.weatherapp.domain.commands.RequestDayForecastCommand
 import com.example.ccsa.weatherapp.domain.model.Forecast
 import com.example.ccsa.weatherapp.extensions.*
 import com.squareup.picasso.Picasso
-import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.uiThread
 import kotlinx.android.synthetic.main.activity_detail.*
-import org.jetbrains.anko.ctx
-import org.jetbrains.anko.find
+import kotlinx.coroutines.experimental.async
+import org.jetbrains.anko.*
+import org.jetbrains.anko.coroutines.experimental.asReference
+import org.jetbrains.anko.coroutines.experimental.bg
 import java.text.DateFormat
 
 public class DetailActivity : AppCompatActivity(), ToolbarManager {
@@ -36,9 +36,12 @@ public class DetailActivity : AppCompatActivity(), ToolbarManager {
         toolbarTitle = intent.getStringExtra(CITY_NAME)
         enableHomeAsUp { onBackPressed() }
 
-        doAsync {
-            val result = RequestDayForecastCommand(intent.getLongExtra(ID, -1)).execute()
-            uiThread { bindForecast(result) }
+        val ref = asReference()
+        val id = intent.getLongExtra(ID, -1)
+
+        async(kotlinx.coroutines.experimental.android.UI) {
+            val result = bg { RequestDayForecastCommand(id).execute() }
+            ref().bindForecast(result.await())
         }
     }
 
