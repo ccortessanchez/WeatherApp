@@ -23,6 +23,8 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.ccsa.weatherapp.ui.activities.MainActivity"/>
         </activity>
+        <activity android:name=".ui.activities.SettingsActivity"
+            android:label="@string/settings"/>
     </application>
     <uses-permission android:name="android.permission.INTERNET"/>
 

@@ -11,6 +11,7 @@ import com.example.ccsa.weatherapp.extensions.slideEnter
 import com.example.ccsa.weatherapp.extensions.slideExit
 import com.example.ccsa.weatherapp.ui.App
 import org.jetbrains.anko.toast
+import org.jetbrains.anko.startActivity
 
 interface ToolbarManager {
     val toolbar: Toolbar
@@ -28,7 +29,7 @@ interface ToolbarManager {
         toolbar.inflateMenu(R.menu.menu_main)
         toolbar.setOnMenuItemClickListener {
             when (it.itemId) {
-                R.id.action_settings -> App.instance.toast("Settings")
+                R.id.action_settings -> toolbar.ctx.startActivity<SettingsActivity>()
                 else -> App.instance.toast("Unknown option")
             }
             true
@@ -42,7 +43,7 @@ interface ToolbarManager {
     }
 
     private fun createUpDrawable() = DrawerArrowDrawable(toolbar.ctx).apply {
-        progress = 1f 
+        progress = 1f
     }
 
     fun attachToScroll(recyclerView: RecyclerView) {
